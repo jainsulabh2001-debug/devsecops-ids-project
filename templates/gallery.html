@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Gallery{% endblock %}
+
+{% block content %}
+
+<!-- Upload Section -->
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <h4>Upload Image</h4>
+
+    <form method="POST" enctype="multipart/form-data" class="d-flex gap-2">
+      <input class="form-control" type="file" name="image" required>
+      <button class="btn btn-primary">Upload</button>
+    </form>
+  </div>
+</div>
+
+<!-- Image Grid -->
+<div class="row">
+  {% for img in images %}
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm">
+        <img src="{{ url_for('static', filename='uploads/' + img.filename) }}"
+             class="card-img-top"
+             style="height: 220px; object-fit: cover;">
+
+        <div class="card-body text-center">
+          <a href="/delete/{{ img.id }}" class="btn btn-sm btn-danger">
+            Delete
+          </a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% if images|length == 0 %}
+  <p class="text-muted text-center">No images uploaded yet.</p>
+{% endif %}
+
+{% endblock %}
